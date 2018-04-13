@@ -449,9 +449,9 @@ public class OneSignalNotification {
 			try! json.set("app_ids", appIDs!)
 		}
 		
-		try! json.set("contents", contents)
-		try! json.checkAndSet("headings", headings)
-		try! json.checkAndSet("subtitle", subtitles)
+		try! json.set("contents", contents.makeJSON())
+		try! json.checkAndSet("headings", headings?.makeJSON())
+		try! json.checkAndSet("subtitle", subtitles?.makeJSON())
 		
 		if self.contentAvailable {
 			json.removeKey("contents")

@@ -17,3 +17,15 @@ extension JSON {
 	}
 	
 }
+
+extension Array where Element == OneSignalLanguageAndText {
+	
+	public func makeJSON() throws -> JSON {
+		var json = JSON()
+		for item in self {
+			try! json.set(item.language, item.text)
+		}
+		return json
+	}
+	
+}
