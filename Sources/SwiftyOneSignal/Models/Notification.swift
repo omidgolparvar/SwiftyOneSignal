@@ -263,6 +263,8 @@ public class OneSignalNotification {
 	*/
 	public convenience init(forSendToSegments includedSegments: [String], excludedSegments: [String]? = nil) {
 		self.init()
+		self.includedSegments = includedSegments
+		self.excludedSegments = excludedSegments
 	}
 	
 	
@@ -287,6 +289,7 @@ public class OneSignalNotification {
 	*/
 	public convenience init(forSendToUsersBasedOnFilters filters: [OneSignalFilter]) {
 		self.init()
+		self.filters = filters
 	}
 	
 	
@@ -300,6 +303,7 @@ public class OneSignalNotification {
 	*/
 	public convenience init(forSendToSpecificDevices includePlayerIDs: [OneSignalDevice]) {
 		self.init()
+		self.devices = includePlayerIDs
 	}
 	
 	
@@ -318,7 +322,7 @@ public class OneSignalNotification {
 	
 	@discardableResult
 	public func setContent(_ text: String, forLanguage language: String = "en") -> OneSignalNotification {
-		self.contents.append((language, text))
+		self.contents.append(OneSignalLanguageAndText(language: language, text: text))
 		return self
 	}
 	
@@ -331,7 +335,7 @@ public class OneSignalNotification {
 	@discardableResult
 	public func setHeading(_ text: String, forLanguage language: String = "en") -> OneSignalNotification {
 		if self.headings == nil { self.headings = [] }
-		self.headings?.append((language, text))
+		self.headings?.append(OneSignalLanguageAndText(language: language, text: text))
 		return self
 	}
 	
@@ -345,7 +349,7 @@ public class OneSignalNotification {
 	@discardableResult
 	public func setSubtitle(_ text: String, forLanguage language: String = "en") -> OneSignalNotification {
 		if self.subtitles == nil { self.subtitles = [] }
-		self.subtitles?.append((language, text))
+		self.subtitles?.append(OneSignalLanguageAndText(language: language, text: text))
 		return self
 	}
 	
@@ -429,7 +433,8 @@ public class OneSignalNotification {
 	
 	public func jsonObject() -> JSON {
 		var json = JSON()
-		try! json.set("included_segments", includedSegments!)
+		
+		try! json.checkAndSet("included_segments", includedSegments)
 		try! json.checkAndSet("excluded_segments", excludedSegments)
 		
 		try! json.checkAndSet("filters", self.filters?.map({ $0.asDictionary }))

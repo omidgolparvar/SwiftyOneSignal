@@ -7,8 +7,5 @@
 
 import Foundation
 
-public typealias OneSignalLanguageAndText						= (language: String, text: String)
-public typealias OneSignalNotificationiOSAttachment				= (id: String, fileNameOrUrl: String)
-public typealias OneSignalNotificationAndroidBackgroundLayout	= (image: String, headingsColor: String, contentsColor: String)
 
 
